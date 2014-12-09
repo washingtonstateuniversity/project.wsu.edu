@@ -41,6 +41,15 @@ html {
 	font-weight: 300;
 }
 
+.project-create-success {
+	background: #fff;
+}
+
+.project-create-success p {
+	font-size: 1.3rem;
+	line-height: 1.8rem;
+}
+
 #project-name {
 	clear: left;
 	height: 46px;

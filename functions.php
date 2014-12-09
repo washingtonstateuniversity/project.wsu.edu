@@ -3,20 +3,23 @@
 class WSU_Projects_Theme {
 	public function __construct() {
 		add_shortcode( 'wsuwp_create_project', array( $this, 'create_project_display' ) );
+		add_action( 'wp_ajax_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
+		add_action( 'wp_ajax_nopriv_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
 	}
 
 	public function create_project_display() {
 		ob_start();
 		if ( is_user_logged_in() ) :
-			wp_enqueue_script( 'project_create_request', plugins_url( '/js/project-create.js', __FILE__ ), array( 'jquery' ), spine_get_script_version(), true );
+			wp_enqueue_script( 'project_create_request', get_stylesheet_directory_uri() . '/js/project-create.js', array( 'jquery' ), spine_get_script_version(), true );
 			wp_localize_script( 'project_create_request', 'project_create_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			?>
 			<div class="project-create-form">
+				<input type="hidden" id="project-create-nonce" value="<?php echo esc_attr( wp_create_nonce( 'project-create-nonce' ) ); ?>" />
 				<label for="project-name">What is your project name?</label>
 				<input type="text" name="project_name" id="project-name" value="" />
 				<label for="project-path" class="project-path-label">Choose a URL for your project:</label>
 				<span class="project-pre-input">project.wsu.edu/</span><input type="text" name="project_path" id="project-path" value="" />
-				<input type="submit" class="project-create" value="Create">
+				<input type="submit" class="project-create" id="submit-project-create" value="Create">
 			</div>
 		<?php else : ?>
 			<div class="project-auth-form">
@@ -28,6 +31,55 @@ class WSU_Projects_Theme {
 		ob_end_clean();
 
 		return $content;
+	}
+
+	public function handle_project_request() {
+		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'project-create-nonce' ) ) {
+			echo json_encode( array( 'error' => 'There was a problem submitting your request.' ) );
+			die();
+		}
+
+		if ( empty( $_POST['project_name'] ) ) {
+			echo json_encode( array( 'error' => 'Please enter a project name.' ) );
+			die();
+		} elseif ( $_POST['project_name'] !== sanitize_text_field( $_POST['project_name'] ) ) {
+			echo json_encode( array( 'error' => 'Invalid characters found in the project name. Please choose another name.' ) );
+			die();
+		}
+
+		if ( empty( $_POST['project_path'] ) ) {
+			echo json_encode( array( 'error' => 'Please enter a path for your project.' ) );
+			die();
+		} elseif( $_POST['project_path'] !== sanitize_title( $_POST['project_path'] ) ) {
+			echo json_encode( array( 'error' => 'Invalid project path entered. Please choose another path.' ) );
+			die();
+		}
+
+		if ( 'project.wsu.dev' === $_SERVER['HTTP_HOST'] ) {
+			$project_domain = 'project.wsu.dev';
+			$project_scheme = 'http://';
+		} else {
+			$project_domain = 'project.wsu.edu';
+			$project_scheme = 'https://';
+		}
+
+		$project_path = str_replace( '/', '', $_POST['project_path'] );
+		$project_path = '/' . trailingslashit( $project_path );
+
+		$user_id = get_current_user_id();
+		$site_id = get_current_site()->id;
+
+		$blog_id = wpmu_create_blog( $project_domain, $project_path, sanitize_text_field( $_POST['project_name'] ), $user_id, array(), $site_id );
+
+		if ( is_wp_error( $blog_id ) ) {
+			echo json_encode( array( 'error' => esc_attr( $blog_id->get_error_message() ) ) );
+			die();
+		}
+
+		$project_url = esc_url( $project_scheme . $project_domain . $project_path );
+		$success_message = '<p class="success">A new WSU Project site has been configured!</p><p class="success">Start communicating at <a href="' . $project_url . '">' . $project_url . '</a>.</p><p>New collaborators can be added to the project through its <a href="' . $project_url . 'wp-admin/">administration interface</a>.</p>';
+		echo json_encode( array( 'success' => $success_message ) );
+		die();
 	}
 }
 new WSU_Projects_Theme();
