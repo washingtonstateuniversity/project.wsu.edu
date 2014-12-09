@@ -13,6 +13,7 @@ class WSU_Projects_Theme {
 			wp_enqueue_script( 'project_create_request', get_stylesheet_directory_uri() . '/js/project-create.js', array( 'jquery' ), spine_get_script_version(), true );
 			wp_localize_script( 'project_create_request', 'project_create_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			?>
+			<div class="project-loading" style="display: none; background-image: url(<?php echo get_stylesheet_directory_uri() . '/spinner.gif'; ?>);"></div>
 			<div class="project-create-form">
 				<input type="hidden" id="project-create-nonce" value="<?php echo esc_attr( wp_create_nonce( 'project-create-nonce' ) ); ?>" />
 				<label for="project-name">What is your project name?</label>

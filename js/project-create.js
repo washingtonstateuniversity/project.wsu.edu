@@ -17,6 +17,8 @@
 			_ajax_nonce:  nonce
 		};
 
+		$('.project-create-form' ).hide();
+		$('.project-loading' ).show();
 		// Make the ajax call
 		$.post( window.project_create_data.ajax_url, data, function( response ) {
 			response = $.parseJSON( response );
@@ -25,6 +27,8 @@
 				$( '.project-create-form').html('');
 				$( '.project-create-form' ).addClass('project-create-success');
 				$( '.project-create-form').append( response.success );
+				$( '.project-loading' ).hide();
+				$( '.project-create-form' ).show();
 			} else {
 				console.log( response.error );
 			}
