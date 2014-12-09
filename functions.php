@@ -28,7 +28,19 @@ class WSU_Projects_Theme {
 		return 'subscriber';
 	}
 
+	/**
+	 * Display a form when the shortcode is used on the home page to capture new project
+	 * details and handle the processing of new requests.
+	 *
+	 * This should only be used on the front page.
+	 *
+	 * @return string HTML output.
+	 */
 	public function create_project_display() {
+		if ( ! is_front_page() ) {
+			return '';
+		}
+
 		ob_start();
 		if ( is_user_logged_in() ) :
 			wp_enqueue_script( 'project_create_request', get_stylesheet_directory_uri() . '/js/project-create.js', array( 'jquery' ), spine_get_script_version(), true );
