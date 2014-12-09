@@ -45,7 +45,7 @@ class WSU_Projects_Theme {
 			</div>
 		<?php else : ?>
 			<div class="project-auth-form">
-				You must authenticate first.
+				WSU Project sites can be created by anyone with a current WSU Network ID. Please <a href="<?php echo esc_url( wp_login_url( home_url() ) ); ?>">authenticate</a> to access the project creation form.
 			</div>
 		<?php endif;
 
