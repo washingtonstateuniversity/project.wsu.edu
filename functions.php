@@ -5,6 +5,27 @@ class WSU_Projects_Theme {
 		add_shortcode( 'wsuwp_create_project', array( $this, 'create_project_display' ) );
 		add_action( 'wp_ajax_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
 		add_action( 'wp_ajax_nopriv_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
+		add_filter( 'wsuwp_sso_create_new_user', array( $this, 'wsuwp_sso_create_new_user' ), 10, 1 );
+		add_filter( 'wsuwp_sso_new_user_role',   array( $this, 'wsuwp_sso_new_user_role'   ), 10, 1 );
+	}
+
+	/**
+	 * Enable the automatic creation of a new user if authentication is handled
+	 * via WSU Network ID and no user exists.
+	 *
+	 * @return bool
+	 */
+	public function wsuwp_sso_create_new_user() {
+		return true;
+	}
+
+	/**
+	 * Set an automatically created user's role as subscriber.
+	 *
+	 * @return string New role for the new user.
+	 */
+	public function wsuwp_sso_new_user_role() {
+		return 'subscriber';
 	}
 
 	public function create_project_display() {
