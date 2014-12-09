@@ -30,7 +30,10 @@
 				$( '.project-loading' ).hide();
 				$( '.project-create-form' ).show();
 			} else {
-				console.log( response.error );
+				$( '.project-create-error' ).remove();
+				$( '.project-create-form' ).prepend('<p class="project-create-error">' + response.error + '</p>' );
+				$( '.project-create-form' ).show();
+				$( '.project-loading' ).hide();
 			}
 		});
 	}

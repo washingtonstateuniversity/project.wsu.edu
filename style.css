@@ -49,6 +49,14 @@ html {
 	background-position-y: 50px;
 }
 
+.project-create-error {
+	background: orange;
+	color: #fff;
+	padding: 15px;
+	width: 75%;
+	margin-bottom: 30px;
+}
+
 .project-create-success {
 	background: #fff;
 }
