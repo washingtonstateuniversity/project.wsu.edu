@@ -7,7 +7,10 @@ class WSU_Projects_Theme {
 
 	public function create_project_display() {
 		ob_start();
-		if ( is_user_logged_in() ) : ?>
+		if ( is_user_logged_in() ) :
+			wp_enqueue_script( 'project_create_request', plugins_url( '/js/project-create.js', __FILE__ ), array( 'jquery' ), spine_get_script_version(), true );
+			wp_localize_script( 'project_create_request', 'project_create_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
+			?>
 			<div class="project-create-form">
 				<label for="project-name">What is your project name?</label>
 				<input type="text" name="project_name" id="project-name" value="" />
