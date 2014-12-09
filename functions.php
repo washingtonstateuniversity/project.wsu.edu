@@ -67,6 +67,9 @@ class WSU_Projects_Theme {
 		return $content;
 	}
 
+	/**
+	 * Handle AJAX requests from the home page to create new projects.
+	 */
 	public function handle_project_request() {
 		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'project-create-nonce' ) ) {
 			echo json_encode( array( 'error' => 'There was a problem submitting your request.' ) );
