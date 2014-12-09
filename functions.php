@@ -79,6 +79,7 @@ class WSU_Projects_Theme {
 
 		$project_url = esc_url( $project_scheme . $project_domain . $project_path );
 		$success_message = '<p class="success">A new WSU Project site has been configured!</p><p class="success">Start communicating at <a href="' . $project_url . '">' . $project_url . '</a>.</p><p>New collaborators can be added to the project through its <a href="' . $project_url . 'wp-admin/">administration interface</a>.</p>';
+		$success_message .= '<p class="success"><a href="' . esc_url( home_url() ) . '">Create</a> another one?</p>';
 		echo json_encode( array( 'success' => $success_message ) );
 		die();
 	}
