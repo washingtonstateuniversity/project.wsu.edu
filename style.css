@@ -18,11 +18,21 @@ html {
 	color: #fff;
 }
 
+.home .size-small h2 {
+	margin-top: 25px;
+	font-size: 2rem;
+}
+
 .project-create-form {
 	background: none;
 	padding: 30px 15px;
 	width: 88%;
 	height: 210px;
+}
+
+.size-small .project-create-form {
+	width: 100%;
+	padding: 20px 0 0 0;
 }
 
 .project-auth-form {
@@ -54,12 +64,21 @@ html {
 	font-weight: 300;
 }
 
+.size-small .project-create-form label {
+	font-size: 1.3rem;
+}
+
 .project-loading {
 	width: 375px;
 	height: 185px;
 	background-repeat: no-repeat;
 	background-position-x: 250px;
 	background-position-y: 50px;
+}
+
+.size-small .project-loading {
+	background-position-x: 70px;
+	width: 200px;
 }
 
 .project-create-error {
@@ -70,13 +89,27 @@ html {
 	margin-bottom: 30px;
 }
 
+.size-small .project-create-error {
+	width: 100%;
+	padding: 15px 0 15px 6px;
+}
+
 .project-create-success {
 	background: #fff;
+}
+
+.size-small .project-create-success {
+	height: 350px;
 }
 
 .project-create-success p {
 	font-size: 1.3rem;
 	line-height: 1.8rem;
+}
+
+.size-small .project-create-success p {
+	font-size: 1.1rem;
+	padding: 10px;
 }
 
 #project-name {
@@ -85,6 +118,10 @@ html {
 	line-height: 1;
 	font-size: 1.5rem;
 	width: 585px;
+}
+
+.size-small #project-name {
+	width: 100%;
 }
 
 .project-path-label {
@@ -101,6 +138,12 @@ html {
 #project-path {
 	width: 280px;
 }
+
+.size-small #project-path {
+	width: 210px;
+	margin-bottom: 20px;
+}
+
 .project-pre-input {
 	line-height: 3rem;
 	padding-right: 6px;
@@ -109,10 +152,21 @@ html {
 	letter-spacing: 1px;
 }
 
+.size-small .project-pre-input {
+	font-size: 1rem;
+}
+
 .project-create {
 	height: 46px;
 	font-size: 1.2rem;
 	margin-left: 10px;
 	width: 135px;
+}
 
+.size-small .project-create {
+	margin: 10px auto;
+	width: 135px;
+	display: block;
+	float: none;
+	clear: left;
 }
