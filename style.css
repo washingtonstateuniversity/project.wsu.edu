@@ -7,3 +7,176 @@
  Template:       spine
  Version:        0.0.1
 */
+html {
+	background-color: rgb(0,165,189);
+	height: 100%;
+}
+
+.home h2 {
+	margin-top: 145px;
+	font-size: 5rem;
+	color: #fff;
+}
+
+.home .spacing-tight .single.gutter .column {
+	padding-left: 4rem;
+	padding-top: 4rem;
+}
+
+.home .spacing-tight.size-small .single.gutter .column {
+	padding-left: 1rem;
+	padding-top: 1rem;
+}
+
+.home .size-small h2 {
+	margin-top: 25px;
+	font-size: 2rem;
+}
+
+.project-create-form {
+	background: none;
+	padding: 30px 15px;
+	width: 88%;
+	height: 210px;
+}
+
+.size-small .project-create-form {
+	width: 100%;
+	padding: 20px 0 0 0;
+}
+
+.project-auth-form {
+	color: #fff;
+	padding: 30px 15px;
+	width: 68%;
+	height: 55px;
+	font-size: 1.2rem;
+	line-height: 1.8rem;
+}
+
+.project-auth-form a {
+	font-weight: 700;
+}
+
+.project-create-form label, .project-create-form input, .project-pre-input {
+	float: left;
+}
+
+.project-pre-input, .project-create-form label {
+	clear: left;
+}
+
+.project-create-form label {
+	font-size: 2.1rem;
+	line-height: 2.1rem;
+	margin-bottom: 11px;
+	color: #fafafa;
+	font-weight: 300;
+}
+
+.size-small .project-create-form label {
+	font-size: 1.3rem;
+}
+
+.project-loading {
+	width: 375px;
+	height: 185px;
+	background-repeat: no-repeat;
+	background-position-x: 250px;
+	background-position-y: 50px;
+}
+
+.size-small .project-loading {
+	background-position-x: 70px;
+	width: 200px;
+}
+
+.project-create-error {
+	background: orange;
+	color: #fff;
+	padding: 15px;
+	width: 75%;
+	margin-bottom: 30px;
+}
+
+.size-small .project-create-error {
+	width: 100%;
+	padding: 15px 0 15px 6px;
+}
+
+.project-create-success {
+	background: #fff;
+}
+
+.size-small .project-create-success {
+	height: 350px;
+}
+
+.project-create-success p {
+	font-size: 1.3rem;
+	line-height: 1.8rem;
+}
+
+.size-small .project-create-success p {
+	font-size: 1.1rem;
+	padding: 10px;
+}
+
+#project-name {
+	clear: left;
+	height: 46px;
+	line-height: 1;
+	font-size: 1.5rem;
+	width: 585px;
+}
+
+.size-small #project-name {
+	width: 100%;
+}
+
+.project-path-label {
+	margin-top: 20px;
+}
+
+#project-path, .project-pre-input {
+	display: block;
+	height: 46px;
+	line-height: 1;
+	font-size: 1.2rem;
+}
+
+#project-path {
+	width: 280px;
+}
+
+.size-small #project-path {
+	width: 210px;
+	margin-bottom: 20px;
+}
+
+.project-pre-input {
+	line-height: 3rem;
+	padding-right: 6px;
+	color: #ebebeb;
+	font-weight: 300;
+	letter-spacing: 1px;
+}
+
+.size-small .project-pre-input {
+	font-size: 1rem;
+}
+
+.project-create {
+	height: 46px;
+	font-size: 1.2rem;
+	margin-left: 10px;
+	width: 135px;
+}
+
+.size-small .project-create {
+	margin: 10px auto;
+	width: 135px;
+	display: block;
+	float: none;
+	clear: left;
+}
