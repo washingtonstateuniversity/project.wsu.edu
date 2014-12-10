@@ -18,6 +18,16 @@ html {
 	color: #fff;
 }
 
+.home .spacing-tight .single.gutter .column {
+	padding-left: 4rem;
+	padding-top: 4rem;
+}
+
+.home .spacing-tight.size-small .single.gutter .column {
+	padding-left: 1rem;
+	padding-top: 1rem;
+}
+
 .home .size-small h2 {
 	margin-top: 25px;
 	font-size: 2rem;
