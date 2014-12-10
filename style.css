@@ -69,13 +69,14 @@ html {
 .project-create-form label {
 	font-size: 2.1rem;
 	line-height: 2.1rem;
-	margin-bottom: 11px;
+	margin-bottom: 20px;
 	color: #fafafa;
 	font-weight: 300;
 }
 
 .size-small .project-create-form label {
 	font-size: 1.3rem;
+	margin-bottom: 10px;
 }
 
 .project-loading {
