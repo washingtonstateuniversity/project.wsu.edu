@@ -76,11 +76,8 @@ class WSU_Projects_Theme {
 			die();
 		}
 
-		if ( empty( $_POST['project_name'] ) ) {
-			echo json_encode( array( 'error' => 'Please enter a project name.' ) );
-			die();
-		} elseif ( $_POST['project_name'] !== sanitize_text_field( $_POST['project_name'] ) ) {
-			echo json_encode( array( 'error' => 'Invalid characters found in the project name. Please choose another name.' ) );
+		if ( ! isset( $_POST['project_name'] ) || empty( sanitize_text_field( $_POST['project_name'] ) ) ) {
+			echo json_encode( array( 'error' => 'Please enter a few words as a title for the project. It is possible the last attempt contained invalid characters.' ) );
 			die();
 		}
 
