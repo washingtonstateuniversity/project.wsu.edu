@@ -1,12 +1,27 @@
 <?php
 
 class WSU_Projects_Theme {
+
+	/**
+	 * @var string Current theme version.
+	 */
+	public $theme_version = '0.1.1';
+
 	public function __construct() {
 		add_shortcode( 'wsuwp_create_project', array( $this, 'create_project_display' ) );
 		add_action( 'wp_ajax_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
 		add_action( 'wp_ajax_nopriv_submit_project_create_request', array( $this, 'handle_project_request' ), 10, 1 );
 		add_filter( 'wsuwp_sso_create_new_user', array( $this, 'wsuwp_sso_create_new_user' ), 10, 1 );
 		add_filter( 'wsuwp_sso_new_user_role',   array( $this, 'wsuwp_sso_new_user_role'   ), 10, 1 );
+	}
+
+	/**
+	 * Provide a string as a cache breaker for the theme Javascript.
+	 *
+	 * @return string
+	 */
+	public function get_theme_version() {
+		return spine_get_script_version() . $this->theme_version;
 	}
 
 	/**
@@ -43,7 +58,7 @@ class WSU_Projects_Theme {
 
 		ob_start();
 		if ( is_user_logged_in() ) :
-			wp_enqueue_script( 'project_create_request', get_stylesheet_directory_uri() . '/js/project-create.js', array( 'jquery' ), spine_get_script_version(), true );
+			wp_enqueue_script( 'project_create_request', get_stylesheet_directory_uri() . '/js/project-create.js', array( 'jquery' ), $this->get_theme_version(), true );
 			wp_localize_script( 'project_create_request', 'project_create_data', array( 'ajax_url' => admin_url( 'admin-ajax.php' ) ) );
 			?>
 			<div class="project-loading" style="display: none; background-image: url(<?php echo get_stylesheet_directory_uri() . '/spinner.gif'; ?>);"></div>
