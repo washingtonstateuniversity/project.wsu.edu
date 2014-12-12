@@ -81,11 +81,8 @@ class WSU_Projects_Theme {
 			die();
 		}
 
-		if ( empty( $_POST['project_path'] ) ) {
-			echo json_encode( array( 'error' => 'Please enter a path for your project.' ) );
-			die();
-		} elseif( $_POST['project_path'] !== sanitize_title( $_POST['project_path'] ) ) {
-			echo json_encode( array( 'error' => 'Invalid project path entered. Please choose another path.' ) );
+		if ( ! isset( $_POST['project_path'] ) || empty( sanitize_title( $_POST['project_path'] ) ) ) {
+			echo json_encode( array( 'error' => 'Please enter a path for your project. This will appear as the second part of the URL and should not contain spaces or invalid characters.' ) );
 			die();
 		}
 
@@ -97,7 +94,7 @@ class WSU_Projects_Theme {
 			$project_scheme = 'https://';
 		}
 
-		$project_path = str_replace( '/', '', $_POST['project_path'] );
+		$project_path = sanitize_title( $_POST['project_path'] );
 		$project_path = '/' . trailingslashit( $project_path );
 
 		$user_id = get_current_user_id();
