@@ -71,6 +71,8 @@ class WSU_Projects_Theme {
 	 * Handle AJAX requests from the home page to create new projects.
 	 */
 	public function handle_project_request() {
+		global $wpdb;
+
 		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'project-create-nonce' ) ) {
 			echo json_encode( array( 'error' => 'There was a problem submitting your request.' ) );
 			die();
@@ -99,6 +101,15 @@ class WSU_Projects_Theme {
 
 		$user_id = get_current_user_id();
 		$site_id = get_current_site()->id;
+
+		// Use a direct query rather than `domain_exists()` as multiple networks may share this domain and path combination.
+		$query = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $project_domain, $project_path );
+		$found_site_id = $wpdb->get_var( $query );
+
+		if ( $found_site_id ) {
+			echo json_encode( array( 'error' => 'Sorry, the project site with that path - ' . $project_path . ' - already exists.' ) );
+			die();
+		}
 
 		$blog_id = wpmu_create_blog( $project_domain, $project_path, sanitize_text_field( $_POST['project_name'] ), $user_id, array(), $site_id );
 
