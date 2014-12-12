@@ -71,24 +71,20 @@ class WSU_Projects_Theme {
 	 * Handle AJAX requests from the home page to create new projects.
 	 */
 	public function handle_project_request() {
+		global $wpdb;
+
 		if ( ! isset( $_POST['_ajax_nonce'] ) || ! wp_verify_nonce( $_POST['_ajax_nonce'], 'project-create-nonce' ) ) {
 			echo json_encode( array( 'error' => 'There was a problem submitting your request.' ) );
 			die();
 		}
 
-		if ( empty( $_POST['project_name'] ) ) {
-			echo json_encode( array( 'error' => 'Please enter a project name.' ) );
-			die();
-		} elseif ( $_POST['project_name'] !== sanitize_text_field( $_POST['project_name'] ) ) {
-			echo json_encode( array( 'error' => 'Invalid characters found in the project name. Please choose another name.' ) );
+		if ( ! isset( $_POST['project_name'] ) || empty( sanitize_text_field( $_POST['project_name'] ) ) ) {
+			echo json_encode( array( 'error' => 'Please enter a few words as a title for the project. It is possible the last attempt contained invalid characters.' ) );
 			die();
 		}
 
-		if ( empty( $_POST['project_path'] ) ) {
-			echo json_encode( array( 'error' => 'Please enter a path for your project.' ) );
-			die();
-		} elseif( $_POST['project_path'] !== sanitize_title( $_POST['project_path'] ) ) {
-			echo json_encode( array( 'error' => 'Invalid project path entered. Please choose another path.' ) );
+		if ( ! isset( $_POST['project_path'] ) || empty( sanitize_title( $_POST['project_path'] ) ) ) {
+			echo json_encode( array( 'error' => 'Please enter a path for your project. This will appear as the second part of the URL and should not contain spaces or invalid characters.' ) );
 			die();
 		}
 
@@ -100,11 +96,20 @@ class WSU_Projects_Theme {
 			$project_scheme = 'https://';
 		}
 
-		$project_path = str_replace( '/', '', $_POST['project_path'] );
+		$project_path = sanitize_title( $_POST['project_path'] );
 		$project_path = '/' . trailingslashit( $project_path );
 
 		$user_id = get_current_user_id();
 		$site_id = get_current_site()->id;
+
+		// Use a direct query rather than `domain_exists()` as multiple networks may share this domain and path combination.
+		$query = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s", $project_domain, $project_path );
+		$found_site_id = $wpdb->get_var( $query );
+
+		if ( $found_site_id ) {
+			echo json_encode( array( 'error' => 'Sorry, the project site with that path - ' . $project_path . ' - already exists.' ) );
+			die();
+		}
 
 		$blog_id = wpmu_create_blog( $project_domain, $project_path, sanitize_text_field( $_POST['project_name'] ), $user_id, array(), $site_id );
 
